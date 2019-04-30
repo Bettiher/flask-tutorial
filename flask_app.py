@@ -1,6 +1,4 @@
-import pandas as pd
-
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 app.config["DEBUG"] = True
@@ -16,7 +14,14 @@ def blabla():
     return "Blabla!"
 
 
-@app.route("/api")
-def data_jsonify():
-    data = pd.DataFrame([{'name': 'lili', 'age': 12}, {'name': 'jules', 'age': 30}])
-    return data.to_json(orient='records')  # return jsonify({'a': 1, 'b': 2})
+@app.route("/api", methods=['POST'])
+def increment_age():
+    if request.method == 'POST':
+        data = request.form.to_dict()
+        data['age'] = float(data.get('age', 0))
+        data['age_plus_one'] = data.get('age') + 1
+        return jsonify(data)
+
+
+# data = pd.DataFrame({'name': ['lili', 'jules'], 'age': [12, 30]})
+# data.to_json(orient='records')
