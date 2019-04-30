@@ -14,13 +14,15 @@ def blabla():
     return "Blabla!"
 
 
-@app.route("/api", methods=['POST'])
+@app.route("/api", methods=['POST', 'GET'])
 def increment_age():
     if request.method == 'POST':
         data = request.form.to_dict()
         data['age'] = float(data.get('age', 0))
         data['age_plus_one'] = data.get('age') + 1
         return jsonify(data)
+    if request.method == 'GET':
+        return 'provide some data'
 
 
 # data = pd.DataFrame({'name': ['lili', 'jules'], 'age': [12, 30]})
